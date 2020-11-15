@@ -6,7 +6,7 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
 import io.netty.handler.logging.LoggingHandler;
@@ -29,6 +29,7 @@ public void run() {
 			protected void initChannel(SocketChannel ch) throws Exception {
 				ch.pipeline()
 				.addLast(new HttpRequestDecoder())
+				.addLast(new HttpObjectAggregator(65536))
 				.addLast(new HttpResponseEncoder())
 				.addLast(new HttpHandler());
 			}
